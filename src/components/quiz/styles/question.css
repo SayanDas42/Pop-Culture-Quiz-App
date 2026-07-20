@@ -1,0 +1,90 @@
+.question{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    border: 8px solid transparent;
+    border-color: rgb(218, 218, 250);
+    box-shadow: 0 0px 12px rgba(0, 0, 0, 0.25);
+    background-color: white;
+    width: 550px;
+    height: 550px
+}
+
+#ques{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-color: rgb(195, 195, 254);
+    border: 0px solid transparent;
+    border-color: rgb(218, 218, 250);
+    display: grid;
+    place-items: center;
+    width: 100%;
+    min-height: 65px;
+    margin: 0;
+}
+
+
+.questionblock{
+    padding-top: 25px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#qImg{
+    height: 450px;
+    width: 500px;
+    object-fit:scale-down;
+}
+
+.qDetail{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    min-height: 400px;
+}
+
+#qQuote{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.qanda{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 40px;
+}
+
+#answerbox{
+    width: 400px;
+    height: 40px;
+    margin: 0;
+    border-radius: 20px;
+    text-align: center;
+    border: 4px solid transparent;
+    border-color: rgb(172, 172, 254);
+    font-size: large;
+}
+
+#answerbox:focus{
+    outline: none;
+}
+
+#timer{
+    position: absolute;
+    top: 90px;
+    right: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
+}
+
+.quizend{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

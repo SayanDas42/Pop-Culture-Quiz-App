@@ -1,0 +1,44 @@
+#newgamebutton{
+    font-weight: bold;
+    font-size:28px;
+    color: black;
+    height: 200px;
+    width: 400px;
+    border: 1px solid transparent;
+    box-shadow: 0 0px 12px rgba(0, 0, 0, 0.25);
+    border-radius: 100px;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background: linear-gradient(to right, lavender, lightblue);
+}
+
+#newgamebutton:hover{
+    transform: scale(1.03);
+    cursor: pointer;
+}
+
+#createroombutton{
+    font-weight: bold;
+    font-size:28px;
+    color: black;
+    height: 200px;
+    width: 400px;
+    border: 1px solid transparent;
+    box-shadow: 0 0px 12px rgba(0, 0, 0, 0.25);
+    border-radius: 100px;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background: linear-gradient(to left, lavender, lightblue);
+}
+
+#createroombutton:hover{
+    transform: scale(1.03);
+    cursor: pointer;
+}
+
+.newgamebuttons{
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    align-items: center;
+    gap:60px
+
+}
