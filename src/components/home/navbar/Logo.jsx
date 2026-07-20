@@ -1,8 +1,9 @@
 import './styles/Logo.css'
+import logo from "/src/assets/pqlogo.png";
 function Logo(){
     return(
         <>
-        <img id = "logo" src = "/src/assets/pqlogo.png" alt="PopQuiz Logo"></img>
+        <img id = "logo" src = {logo} alt="PopQuiz Logo"></img>
         </>
     )
 }
