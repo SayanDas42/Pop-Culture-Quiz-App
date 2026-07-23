@@ -2,7 +2,7 @@ import "./styles/game.css"
 
 import { useState,useRef,useEffect } from "react";
 import { Client } from "@stomp/stompjs"
-function Game({game,clientRef,timeLeft,isHost}){
+function Game({game,clientRef,timeLeft}){
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     const playerId = sessionStorage.getItem(`playerId:${game.roomCode}`);
     const correctlyAnsweredPlayers = new Set(game.correctlyAnsweredPlayers);
