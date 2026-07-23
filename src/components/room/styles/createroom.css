@@ -113,14 +113,33 @@
 }
 
 .popupbox {
-  background-color: white;
+  background-color: rgb(242, 249, 252);
   padding: 30px;
   border-radius: 16px;
   min-width: 320px;
 
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 14px;
 
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.35);
+}
+
+.closebutton{
+    font-weight: bold;
+    font-size:28px;
+    color: black;
+    height: 100px;
+    width: 200px;
+    border: 1px solid transparent;
+    box-shadow: 0 0px 12px rgba(0, 0, 0, 0.25);
+    border-radius: 100px;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background: linear-gradient(to left, lavender, lightblue);
+}
+
+.closebutton:hover{
+    transform: scale(1.03);
+    cursor: pointer;
 }

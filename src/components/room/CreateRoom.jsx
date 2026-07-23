@@ -47,7 +47,12 @@ function CreateRoom(){
                     method: "POST"
                 })
                     .then((response) => response.json())
-                    .then((data) => {navigate(`/room/${data.roomCode}`)})
+                    .then((data) => {
+                        sessionStorage.setItem(
+                            `playerId:${data.roomCode}`,
+                            data.playerId
+                        );
+                        navigate(`/room/${data.roomCode}`)})
                     .catch((error) => {
                     console.error("Room Not Found:", error);
                     });
@@ -71,7 +76,7 @@ function CreateRoom(){
                     <div className = "popupbox">
                         <input id = "namebox" type = "text" placeholder="Type your name"></input>
                         <button className="hostroombutton" onClick={hostRoom}>Host</button>
-                        <button onClick={() => setShowPopupHost(false)}>Close</button>
+                        <button className = "closebutton" onClick={() => setShowPopupHost(false)}>Close</button>
                     </div>
                 </div>
             )}
@@ -81,7 +86,7 @@ function CreateRoom(){
                         <input id = "namebox" type = "text" placeholder="Type your name"></input>
                         <input id = "roomcodebox" type = "text" placeholder="Type a room code"></input>
                         <button className="joinroombutton" onClick={joinRoom}>Join</button>
-                        <button onClick={() => setShowPopupJoin(false)}>Close</button>
+                        <button className = "closebutton" onClick={() => setShowPopupJoin(false)}>Close</button>
                     </div>
                 </div>
             )}

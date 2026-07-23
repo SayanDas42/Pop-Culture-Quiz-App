@@ -1,8 +1,9 @@
 .Menu{
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-end;
     align-items: center;
     width: 500px;
+    gap: 20px;
     font-weight: bold;
 }
 

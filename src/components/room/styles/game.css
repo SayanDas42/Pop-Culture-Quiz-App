@@ -1,0 +1,62 @@
+.game{
+    display: flex;
+    justify-content: space-around;
+}
+
+.playerlist{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+    gap: 10px;
+}
+
+#player{
+    border: 2px solid transparent;
+    border-radius: 20px;
+    border-color: rgb(218, 218, 250);
+    box-shadow: 0 0px 12px rgba(0, 0, 0, 0.25);
+    background-color: lavender;
+    width: 150px;
+    height: 80px;
+    text-align: center;
+}
+
+.currentPlayer {
+  color: rgb(58, 58, 249);
+  font-weight: bold;
+}
+
+.otherPlayer {
+  color: black;
+}
+
+#answered{
+    width: 400px;
+    height: 40px;
+    margin: 0;
+    border-radius: 20px;
+    text-align: center;
+    border: 4px solid transparent;
+    border-color: rgb(172, 172, 254);
+    background-color: rgb(172, 172, 254);
+    font-size: large;
+}
+
+#answered:focus{
+    outline: none;
+}
+
+.timerandplayerlist{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 20px;
+    gap: 10px;
+}
+
+#multiplayertimer{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
+}

@@ -6,7 +6,6 @@ function Menu(){
             <NavLink to = "/" className = "menu-item">Home</NavLink>
             <div className = "menu-item">About</div>
             <div className = "menu-item">Socials</div>
-            <div className = "menu-item">Support Me</div>
         </div>
     )
 }
