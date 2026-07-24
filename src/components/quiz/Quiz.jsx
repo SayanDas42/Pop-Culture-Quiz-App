@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Nav from "/src/components/home/navbar/Nav.jsx";
 import Question from "./Question"
+import correctSound from "/src/assets/sounds/correct.mp3";
+import wrongSound from "/src/assets/sounds/wrong.mp3";
 function Quiz(){
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     const [data, setData] = useState(null);
@@ -8,6 +10,9 @@ function Quiz(){
     const [score, setScore] = useState(0);
     const [qInd, setQInd] = useState(0);
     const [numQuestions, setNumQuestions] = useState("0");
+
+    const correctAudioRef = useRef(new Audio(correctSound));
+    const wrongAudioRef = useRef(new Audio(wrongSound));
 
     useEffect(() => {
         if(data != null)
@@ -62,7 +67,27 @@ function Quiz(){
                 if(response.ok){
                     const result = await response.json();
                     if(result){
+                        correctAudioRef.current.currentTime = 0;
+                        correctAudioRef.current
+                            .play()
+                            .catch((error) => {
+                                console.error(
+                                    "Could not play sound:",
+                                    error
+                                );
+                            });
                         nextQuestion(true);
+                    }
+                    else{
+                       wrongAudioRef.current.currentTime = 0;
+                        wrongAudioRef.current
+                            .play()
+                            .catch((error) => {
+                                console.error(
+                                    "Could not play sound:",
+                                    error
+                                );
+                            }); 
                     }
                 }
                 else{

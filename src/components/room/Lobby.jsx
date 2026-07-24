@@ -9,6 +9,7 @@ function Lobby(){
     const[playerList,setPlayerList] = useState(null);
     const[gameStarted, setGameStarted] = useState(false);
     const[game,setGame] = useState(null);
+    const[answer,setAnswer] = useState(null);
     const clientRef = useRef(null);
 
     const playerId = sessionStorage.getItem(`playerId:${roomCode}`);
@@ -91,6 +92,7 @@ function Lobby(){
                     const updatedGame = JSON.parse(message.body);
                     setGame(updatedGame);
                     setTimeLeft(updatedGame.endsAt - Math.floor(Date.now() / 1000));
+                    setAnswer(null);
                     setGameStarted(true);
                 });
             },
@@ -105,12 +107,38 @@ function Lobby(){
         };
     },[roomCode])
 
+    useEffect(() => {
+        const client = new Client({
+            brokerURL: import.meta.env.VITE_API_BASE_URL_WS,
+            reconnectDelay: 5000,
+            onConnect: () => {
+                client.subscribe(`/topic/game/answer/${roomCode}`, (message) => {
+                    const answer = JSON.parse(message.body);
+                    setAnswer(answer);
+                });
+            },
+            onStompError: (frame) => {
+                console.error("STOMP error:", frame.headers.message);
+            },
+        });
+        client.activate();
+        clientRef.current = client;
+        return () => {
+            client.deactivate();
+        };
+    },[roomCode])
+
+    function returnToLobby() {
+        setGameStarted(false);
+        setGame(null);
+    }
+
     function startGame(){
         fetch(`${import.meta.env.VITE_API_BASE_URL}/room/${roomCode}/startgame`,{method: "POST"});
     }
 
     if(gameStarted == true){
-        return <Game game = {game} clientRef = {clientRef} timeLeft = {timeLeft} isHost = {isHost}/>
+        return <Game game = {game} clientRef = {clientRef} timeLeft = {timeLeft} answer = {answer} returnToLobby = {returnToLobby}/>
     }
 
     if (roomData === null) {
