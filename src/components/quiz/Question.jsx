@@ -1,24 +1,34 @@
 import { useState, useEffect } from "react";
 import "./styles/question.css"
-function Question({question,checkAnswer,nextQuestion,score,qInd,numQuestions}){
+function Question({question,checkAnswer,nextQuestion,score,qInd,numQuestions,endTime}){
 
-    const[time,setTime] = useState(9);
+    const [time, setTime] = useState(null);
 
     useEffect(() => {
-        setTime(9)
-        const timer = setInterval(() => {
-            setTime((previousTime) => {
-            if (previousTime <= 0) {
-                clearInterval(timer);
-                document.getElementById("answerbox").value = "";
-                nextQuestion(false);
-                return 0;
-            }
-            return previousTime - 1;
-            });
-        }, 1000);
-        return () => clearInterval(timer);
-        },[qInd]);
+    if (!endTime) return;
+
+    const timer = setInterval(() => {
+        const remaining = Math.max(
+        0,
+        Math.ceil((endTime - Date.now()) / 1000)
+        );
+
+        setTime(remaining);
+
+        if (remaining <= 0) {
+        clearInterval(timer);
+
+        const input = document.getElementById("answerbox");
+        if (input) {
+            input.value = "";
+        }
+
+        nextQuestion(false);
+        }
+    }, 0);
+
+    return () => clearInterval(timer);
+    }, [question.question, endTime]);
 
     return(
         <>

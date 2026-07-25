@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import Nav from "/src/components/home/navbar/Nav.jsx";
 import Question from "./Question"
-import correctSound from "/src/assets/sounds/correct.mp3";
-import wrongSound from "/src/assets/sounds/wrong.mp3";
+import correctSound from "/src/assets/sounds/correct.m4a";
+import wrongSound from "/src/assets/sounds/wrong.m4a";
 function Quiz(){
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     const [data, setData] = useState(null);
@@ -10,22 +10,44 @@ function Quiz(){
     const [score, setScore] = useState(0);
     const [qInd, setQInd] = useState(0);
     const [numQuestions, setNumQuestions] = useState("0");
+    const savedRoomCode = sessionStorage.getItem("singlePlayerRoomCode");
+    const [endTime, setEndTime] = useState(
+        sessionStorage.getItem("endTime")
+        );
+    const timeGiven = 15;
 
     const correctAudioRef = useRef(new Audio(correctSound));
     const wrongAudioRef = useRef(new Audio(wrongSound));
 
     useEffect(() => {
-        if(data != null)
-            return;
-        fetch(`${API_BASE_URL}/room/singleplayer`,{method: "POST"})
-        .then((response) => response.json())
-        .then((json) => {
-            setData(json);
-            setNumQuestions(json.numQuestions);
-        })
-        .catch((error) => {
-            console.error("Error fetching data:", error);
-        });
+        if(!savedRoomCode){
+            fetch(`${API_BASE_URL}/room/singleplayer`,{method: "POST"})
+            .then((response) => response.json())
+            .then((json) => {
+                console.log(json);
+                setData(json);
+                setNumQuestions(json.numQuestions);
+                sessionStorage.setItem("singlePlayerRoomCode", json.roomCode);
+                const newEndTime = Math.floor(Date.now() + timeGiven*1000)
+                sessionStorage.setItem("endTime",newEndTime);
+                setEndTime(newEndTime);
+            })
+            .catch((error) => {
+                console.error("Error fetching data:", error);
+            });
+        }
+        else{
+            fetch(`${API_BASE_URL}/room/getroomsingleplayer/${savedRoomCode}`,{method: "GET"})
+            .then((response) => response.json())
+            .then((json) => {
+                setData(json);
+                setNumQuestions(json.numQuestions);
+            })
+            .catch((error) => {
+                console.error("Error fetching data:", error);
+            });
+        }
+        
     }, []);
 
     async function nextQuestion(isCorrect){
@@ -41,11 +63,16 @@ function Quiz(){
                 });
                 if(response.status === 204){
                     setQuizEnded(true)
+                    sessionStorage.removeItem("singlePlayerRoomCode");
+                    sessionStorage.removeItem("endTime");
                 }
                 else if(response.ok){
                     const result = await response.json();
                     setQInd(previousQInd => previousQInd + 1);
                     setData(result);
+                    const newEndTime = Math.floor(Date.now() + timeGiven*1000)
+                    sessionStorage.setItem("endTime",newEndTime);
+                    setEndTime(newEndTime);
                 }
                 if(isCorrect)
                     setScore(previousScore => previousScore + 1);
@@ -96,18 +123,40 @@ function Quiz(){
         }
     }
 
+    function playAgain(){
+        setQuizEnded(false);
+        setData(null);
+        setScore(0);
+        setQInd(0);
+        setNumQuestions("0");
+        fetch(`${API_BASE_URL}/room/singleplayer`,{method: "POST"})
+            .then((response) => response.json())
+            .then((json) => {
+                setData(json);
+                setNumQuestions(json.numQuestions);
+                sessionStorage.setItem("singlePlayerRoomCode", json.roomCode);
+                const newEndTime = Math.floor(Date.now() + timeGiven*1000)
+                sessionStorage.setItem("endTime",newEndTime);
+                setEndTime(newEndTime);
+            })
+            .catch((error) => {
+                console.error("Error fetching data:", error);
+        });
+    }
+
     return(
         <>
         {
             quizEnded?(
-                <div className = "quizend">
+                <div className = "quizendsp">
                     <h1 >Quiz Ended</h1>
                     <h1>Final Score : {score} / {numQuestions}</h1>
+                    <button id = "playagainbutton" onClick={playAgain}>Play Again</button>
                 </div>
             ):(
                 data? (
                     <Question question = {data} checkAnswer = {checkAnswer} score = {score}
-                    nextQuestion = {nextQuestion} qInd = {qInd} numQuestions = {numQuestions}/>
+                    nextQuestion = {nextQuestion} qInd = {qInd} numQuestions = {numQuestions} endTime = {endTime}/>
                 ) : (
                     <p>Loading...</p>
                 )

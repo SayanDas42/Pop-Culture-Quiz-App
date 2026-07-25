@@ -5,7 +5,7 @@ function StartNewGame({onStartQuiz}){
     return(
         <div className = "newgamebuttons">
         <button id = "newgamebutton" onClick={() => navigate("/quiz")}>Start New Singleplayer Game</button>
-        <button id = "createroombutton" onClick={() => navigate("/createroom")}>Multiplayer (Coming Soon)</button>
+        <button id = "createroombutton" onClick={() => navigate("/createroom")}>Start New Multiplayer Game</button>
         </div>
     )
 }

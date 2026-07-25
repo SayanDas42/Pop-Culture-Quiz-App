@@ -40,7 +40,7 @@ function CreateRoom(){
         else{
             const roomCode = document.getElementById("roomcodebox").value;
             if(roomCode.trim() == ""){
-                alert("Please enter a room code.")
+                alert("Please enter a room code.");
             }
             else{
                 fetch(`${API_BASE_URL}/room/joinroom/${roomCode}/${name}`, {
@@ -55,6 +55,7 @@ function CreateRoom(){
                         navigate(`/room/${data.roomCode}`)})
                     .catch((error) => {
                     console.error("Room Not Found:", error);
+                    alert("Room not found. Please check the roomcode you have entered.");
                     });
             }
         }

@@ -2,6 +2,7 @@ import "./styles/game.css"
 import { useNavigate} from "react-router";
 import { useState,useRef,useEffect } from "react";
 import { Client } from "@stomp/stompjs"
+
 function Game({game,clientRef,timeLeft,answer,returnToLobby}){
 
     const navigate = useNavigate();
