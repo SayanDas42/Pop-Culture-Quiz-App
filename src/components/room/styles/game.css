@@ -19,8 +19,21 @@
     box-shadow: 0 0px 12px rgba(0, 0, 0, 0.25);
     background-color: lavender;
     width: 150px;
-    height: 80px;
+    min-height: 80px;
     text-align: center;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#correctplayer{
+    border: 2px solid transparent;
+    border-radius: 20px;
+    border-color: rgb(218, 218, 250);
+    box-shadow: 0 0px 12px rgba(0, 0, 0, 0.25);
+    background-color: rgb(189, 249, 216);
+    width: 150px;
+    min-height: 80px;
+    text-align: center;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .currentPlayer {

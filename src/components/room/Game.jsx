@@ -11,6 +11,23 @@ function Game({game,clientRef,timeLeft,answer,returnToLobby}){
     const playerId = sessionStorage.getItem(`playerId:${game.roomCode}`);
     const correctlyAnsweredPlayers = new Set(game.correctlyAnsweredPlayers);
 
+    const [userAnswer, setAnswer] = useState("");
+    const answerInputRef = useRef(null);
+
+    useEffect(() => {
+        setAnswer("");
+
+        if (answerInputRef.current) {
+            answerInputRef.current.focus();
+        }
+        }, [game.question]);
+
+    useEffect(() => {
+        if (answerInputRef.current) {
+            answerInputRef.current.focus();
+        }
+        }, [game]);
+
     function checkAnswer(answer){
         const payload = {
             roomCode: game.roomCode,
@@ -47,13 +64,14 @@ function Game({game,clientRef,timeLeft,answer,returnToLobby}){
                         <div>
                             {correctlyAnsweredPlayers.has(playerId)?
                                 <input key = "answered" id = "answered" type = "text" value = "Correct Answer" disabled readOnly></input>:
-                                <input key = "answerbox" id = "answerbox" type ="text" placeholder="Type your answer" autoComplete = "off" 
-                                disabled={timeLeft === 0}
+                                <input ref={answerInputRef} key = "answerbox" id = "answerbox" type ="text" placeholder="Type your answer" autoComplete = "off" 
+                                value={userAnswer} onChange={(e) => setAnswer(e.target.value)} disabled={timeLeft === 0}
                                 onKeyDown={(e) => {
                                     if (e.key === "Enter") {
-                                        const val = e.target.value;
-                                        e.target.value = "";
-                                    checkAnswer(val);
+                                        const val = userAnswer.trim();
+                                        if (val === "") return;
+                                        setAnswer("");
+                                        checkAnswer(val);
                                     }
                                 }}></input>
                         }
@@ -63,7 +81,15 @@ function Game({game,clientRef,timeLeft,answer,returnToLobby}){
                 <div className = "timerandplayerlist">
                     <div className = "playerlist">
                         {game.playerList.map((player) => (
-                            <div id = "player"
+                            correctlyAnsweredPlayers.has(player.playerId)?
+                            <div id = "correctplayer"
+                                key={player.playerId}
+                                className={player.playerId === playerId ? "currentPlayer" : "otherPlayer"}
+                                >
+                                <h3>{player.playerName}</h3>
+                                <p>{player.score}</p>
+                            </div>
+                            :<div id = "player"
                                 key={player.playerId}
                                 className={player.playerId === playerId ? "currentPlayer" : "otherPlayer"}
                                 >
@@ -106,7 +132,7 @@ function Game({game,clientRef,timeLeft,answer,returnToLobby}){
                             <div className="qDetail">
                             {
                                 game.imageID?
-                                <img id = "qImg" src = {`/src/assets/images/${game.imageID}.jpg`}></img>:
+                                <img id = "qImg" src = {`${import.meta.env.VITE_IMAGE_BASE_URL}/${game.imageID}.jpg`}></img>:
                                 <h1 id = "qQuote">{game.quote}</h1>
                             }
                             </div>
@@ -114,13 +140,14 @@ function Game({game,clientRef,timeLeft,answer,returnToLobby}){
                         <div>
                             {correctlyAnsweredPlayers.has(playerId)?
                                 <input key = "answered" id = "answered" type = "text" value = "Correct Answer" disabled readOnly></input>:
-                                <input key = "answerbox" id = "answerbox" type ="text" placeholder="Type your answer" autoComplete = "off" 
-                                disabled={timeLeft === 0}
+                                <input ref={answerInputRef} key = "answerbox" id = "answerbox" type ="text" placeholder="Type your answer" autoComplete = "off" 
+                                value={userAnswer} onChange={(e) => setAnswer(e.target.value)} disabled={timeLeft === 0}
                                 onKeyDown={(e) => {
                                     if (e.key === "Enter") {
-                                        const val = e.target.value;
-                                        e.target.value = "";
-                                    checkAnswer(val);
+                                        const val = userAnswer.trim();
+                                        if (val === "") return;
+                                        setAnswer("");
+                                        checkAnswer(val);
                                     }
                                 }}></input>
                         }
@@ -133,7 +160,15 @@ function Game({game,clientRef,timeLeft,answer,returnToLobby}){
                     </div>
                     <div className = "playerlist">
                         {game.playerList.map((player) => (
-                            <div id = "player"
+                            correctlyAnsweredPlayers.has(player.playerId)?
+                            <div id = "correctplayer"
+                                key={player.playerId}
+                                className={player.playerId === playerId ? "currentPlayer" : "otherPlayer"}
+                                >
+                                <h3>{player.playerName}</h3>
+                                <p>{player.score}</p>
+                            </div>
+                            :<div id = "player"
                                 key={player.playerId}
                                 className={player.playerId === playerId ? "currentPlayer" : "otherPlayer"}
                                 >

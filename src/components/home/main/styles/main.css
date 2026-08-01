@@ -4,3 +4,12 @@
     align-items: center;
     padding-top: 72px;
 }
+
+@media (max-width: 768px) {
+   .main{
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        padding-top: 72px;
+    } 
+}

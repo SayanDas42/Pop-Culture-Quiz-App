@@ -2,6 +2,7 @@ import { useState,useRef,useEffect } from "react";
 import { useParams } from "react-router"
 import { Client } from "@stomp/stompjs"
 import Game from "./Game";
+import correctSound from "/src/assets/sounds/correct.m4a";
 import "./styles/lobby.css"
 function Lobby(){
     const {roomCode} = useParams();
@@ -17,6 +18,12 @@ function Lobby(){
     const isHost = roomData !== null && roomData.hostPlayerId === playerId;
 
     const [timeLeft, setTimeLeft] = useState(0);
+
+    const [serverClockOffset, setServerClockOffset] = useState(0);
+
+    const correctAudioRef = useRef(
+            new Audio(correctSound)
+        );
 
     useEffect(() => {
         if (timeLeft <= 0) {
@@ -90,8 +97,24 @@ function Lobby(){
             onConnect: () => {
                 client.subscribe(`/topic/game/${roomCode}`, (message) => {
                     const updatedGame = JSON.parse(message.body);
+                    if (
+                        updatedGame.correctlyAnsweredPlayers?.length > 0
+                    ) {
+                        const audio = correctAudioRef.current;
+
+                        audio.currentTime = 0;
+
+                        audio.play().catch((error) => {
+                            console.error(
+                                "Could not play sound:",
+                                error
+                            );
+                        });
+                    }
+
+                    const remainingTime = updatedGame.endsAt - updatedGame.serverNow;
                     setGame(updatedGame);
-                    setTimeLeft(updatedGame.endsAt - Math.floor(Date.now() / 1000));
+                    setTimeLeft(Math.max(0, remainingTime));
                     setAnswer(null);
                     setGameStarted(true);
                 });
@@ -164,7 +187,7 @@ function Lobby(){
                 <h2>Players Joined</h2>
 
                 {playerList.map((player) => (
-                    <div key={player.playerId}>
+                    <div id = "lobbyplayers" key={player.playerId}>
                         <h3>{player.playerName}</h3>
                     </div>
                 ))}
