@@ -79,6 +79,9 @@ function Game({game,clientRef,timeLeft,answer,returnToLobby}){
                     </div>
                 </div>
                 <div className = "timerandplayerlist">
+                    <div id = "multiplayertimer">
+                        <h2>Time Remaining : 0</h2>
+                    </div>
                     <div className = "playerlist">
                         {game.playerList.map((player) => (
                             correctlyAnsweredPlayers.has(player.playerId)?
