@@ -110,6 +110,9 @@ function Question({question,checkAnswer,correctAnswer,displayCorrectAnswer,nextQ
                                 }
                             }}></input>
                         </div>
+                        <div>
+                            <button id = "skip" onClick={displayCorrectAnswer}><b>&#128683; Skip Question</b></button>
+                        </div>
                     </div>
                     <div className = "timerandscore">
                         <div  id = "timer" >
