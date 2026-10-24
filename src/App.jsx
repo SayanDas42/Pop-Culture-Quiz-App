@@ -4,7 +4,6 @@ import Home from './components/home/Home.jsx'
 import Nav from './components/home/navbar/Nav.jsx'
 import CreateRoom from './components/room/CreateRoom.jsx'
 import Lobby from './components/room/Lobby.jsx'
-import { useState } from "react";
 function App(){
     return(
       <>

@@ -54,8 +54,8 @@ function CreateRoom(){
                         );
                         navigate(`/room/${data.roomCode}`)})
                     .catch((error) => {
-                    console.error("Room Not Found:", error);
-                    alert("Room not found. Please check the roomcode you have entered.");
+                    console.error("Room Not Found or game already in progress", error);
+                    alert("Room not found or game already in progress. Please check the roomcode you have entered and make sure the game has not started yet.");
                     });
             }
         }

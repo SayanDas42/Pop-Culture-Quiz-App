@@ -5,14 +5,11 @@ function HowToPlay(){
         <div className = "howtoplay">
             <h1>How To Play</h1>
             <ul className = "instructions">
-                <li>See the buttons on the right? Maybe read what they say.</li>
-                <li>Still here? Maybe press the one of the buttons (with your Mouse, not your Hand).</li>
-                <li>After pressing the <b>Start New Singleplayer Game</b> button, in a strange turn of events, a quiz will begin.</li>
-                <li>If you don't know what a <b>Quiz</b> is: You will get a question and you have to answer it.</li>
-                <li>Write your answer in the box provided and press <b>Enter</b> to start wondering why it was wrong.</li>
+                <li>After pressing the <b>Start New Singleplayer Game</b> button, a quiz will begin.</li>
+                <li>Write your answer in the box provided and press <b>Enter</b>.</li>
                 <li>After pressing the <b>Start New Multiplayer Game</b> button you will be able to create a room to play with your friends.</li>
                 <li>Share the <b>Room Code</b> with your friends and they will be able to join the room.</li>
-                <li>Now press a button already, will ya?</li>
+                <li>Enjoy the game.</li>
             </ul>
         </div>
         </>

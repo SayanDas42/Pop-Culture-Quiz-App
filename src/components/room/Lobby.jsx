@@ -1,9 +1,10 @@
 import { useState,useRef,useEffect } from "react";
-import { useParams } from "react-router"
+import { useNavigate, useParams } from "react-router"
 import { Client } from "@stomp/stompjs"
 import Game from "./Game";
 import correctSound from "/src/assets/sounds/correct.m4a";
 import "./styles/lobby.css"
+import LeaveRoom from "./LeaveRoom";
 function Lobby(){
     const {roomCode} = useParams();
     const[roomData,setRoomData] = useState(null);
@@ -12,6 +13,7 @@ function Lobby(){
     const[game,setGame] = useState(null);
     const[answer,setAnswer] = useState(null);
     const clientRef = useRef(null);
+    const navigate = useNavigate();
 
     const playerId = sessionStorage.getItem(`playerId:${roomCode}`);
 
@@ -20,6 +22,8 @@ function Lobby(){
     const [timeLeft, setTimeLeft] = useState(0);
 
     const [serverClockOffset, setServerClockOffset] = useState(0);
+
+    const [showLeaveRoomPopup,setShowLeaveRoomPopup] = useState(false);
 
     const correctAudioRef = useRef(
             new Audio(correctSound)
@@ -160,6 +164,11 @@ function Lobby(){
         fetch(`${import.meta.env.VITE_API_BASE_URL}/room/${roomCode}/startgame`,{method: "POST"});
     }
 
+    function handleLeaveRoom(){
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/room/deleteplayer/${roomCode}/${playerId}`,{method: "DELETE"})
+        navigate("/");
+    }
+
     if(gameStarted == true){
         return <Game game = {game} clientRef = {clientRef} timeLeft = {timeLeft} answer = {answer} returnToLobby = {returnToLobby}/>
     }
@@ -192,6 +201,16 @@ function Lobby(){
                     </div>
                 ))}
             </div>
+            <LeaveRoom setShowLeaveRoomPopup = {setShowLeaveRoomPopup}/>
+            {showLeaveRoomPopup &&(
+            <div id = "leaveroompopupoverlay">
+                <div id = "leaveroompopup">
+                    <h4>Do you want to leave the room?</h4>
+                    <button id = "yesbtn" onClick={handleLeaveRoom}>Yes</button>
+                    <button id = "nobtn" onClick={() => setShowLeaveRoomPopup(false)}>No</button>
+                </div>
+            </div>
+        )}
         </div>
     )
 }

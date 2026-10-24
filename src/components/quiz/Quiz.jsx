@@ -1,8 +1,9 @@
 import { useEffect, useState, useRef } from "react";
-import Nav from "/src/components/home/navbar/Nav.jsx";
-import Question from "./Question"
 import correctSound from "/src/assets/sounds/correct.m4a";
 import wrongSound from "/src/assets/sounds/wrong.m4a";
+import Exit from "./Exit";
+import Question from "./Question"
+import { useNavigate } from "react-router";
 function Quiz(){
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     const [data, setData] = useState(null);
@@ -16,6 +17,9 @@ function Quiz(){
         sessionStorage.getItem("endTime")
         );
     const timeGiven = 15;
+
+    const[showExitPopup,setShowExitPopup] = useState(false);
+    const navigate = useNavigate();
 
     const correctAudioRef = useRef(new Audio(correctSound));
     const wrongAudioRef = useRef(new Audio(wrongSound));
@@ -166,6 +170,10 @@ function Quiz(){
         });
     }
 
+    function handleExit(){
+        navigate("/");
+    }
+
     return(
         <>
         {
@@ -185,6 +193,16 @@ function Quiz(){
                 )
             )
         }
+        <Exit setShowExitPopup = {setShowExitPopup}/>
+        {showExitPopup &&(
+            <div id = "exitpopupoverlay">
+                <div id = "exitpopup">
+                    <h4>Do you want to exit?</h4>
+                    <button id = "yesbutton" onClick={handleExit}>Yes</button>
+                    <button id = "nobutton" onClick={() => setShowExitPopup(false)}>No</button>
+                </div>
+            </div>
+        )}
         </>
     )
 }
